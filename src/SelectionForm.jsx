@@ -26,33 +26,35 @@ function SelectionForm({ choices, onSubmit }) {
       >
         Shoot!
       </button>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))",
-          gap: "10px",
-        }}
-      >
-        {choices.map((choice) => {
-          return (
-            <div
-              key={choice}
-              onClick={() => handleChoiceChange(choice)}
-              style={{
-                border:
-                  selectedChoice === choice
-                    ? "3px solid blue"
-                    : "1px solid gray",
-                padding: "10px",
-                cursor: "pointer",
-                textAlign: "center",
-                borderRadius: "8px",
-              }}
-            >
-              <ChoiceImage choice={choice} />
-            </div>
-          );
-        })}
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))",
+            gap: "10px",
+          }}
+        >
+          {choices.map((choice) => {
+            return (
+              <div
+                key={choice}
+                onClick={() => handleChoiceChange(choice)}
+                style={{
+                  border:
+                    selectedChoice === choice
+                      ? "3px solid blue"
+                      : "1px solid gray",
+                  padding: "10px",
+                  cursor: "pointer",
+                  textAlign: "center",
+                  borderRadius: "8px",
+                }}
+              >
+                <ChoiceImage choice={choice} />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </form>
   );
