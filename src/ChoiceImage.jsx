@@ -24,21 +24,6 @@ const fetchImageFromTag = async (tag, apiKey) => {
   }
 };
 
-const ImageDisplay = ({ tag, imageUrl }) => (
-  <div>
-    <h2>{tag}</h2>
-    {imageUrl ? (
-      <img
-        src={imageUrl}
-        alt={tag}
-        style={{ width: "300px", height: "auto" }}
-      />
-    ) : (
-      <p>No image found</p>
-    )}
-  </div>
-);
-
 function ChoiceImage({ choice }) {
   const [image, setImage] = useState({});
   const [loading, setLoading] = useState(true);
@@ -58,7 +43,18 @@ function ChoiceImage({ choice }) {
   }
 
   return (
-    <ImageDisplay key={choice} tag={choice} imageUrl={image} alt={choice} />
+    <div>
+      <h2>{choice}</h2>
+      {image ? (
+        <img
+          src={image}
+          alt={choice}
+          style={{ width: "300px", height: "auto" }}
+        />
+      ) : (
+        <p>No image found</p>
+      )}
+    </div>
   );
 }
 
