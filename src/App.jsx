@@ -1,21 +1,24 @@
 import { useState, useReducer, useEffect } from "react";
 import SelectionForm from "./SelectionForm";
-import ChoiceImages from "./ChoiceImages";
+import ChoiceImages from "./ChoiceImage";
+import choicesData from "./choices.json";
 import "./App.css";
 
-/* 
-incorporate choiceImages into selection form
-  generate winGraph making a single cycle of label comparisons
+/*
+instead of an actual graph, index (i) will beat (i + 1)
+  with the edge case being the last item in the list loops back to the first item
+    so the win condition is the shorter directed distance between the choices
 start with default init state
   gradually add choices after each round
   */
 const initialState = {
   title: "Rock Paper Scissors!",
-  choices: ["🪨", "📜", "✂️"],
+  choices: ["Paper", "Rock", "Scissors"],
   winGraph: {
-    "🪨": "✂️", // Rock beats Scissors
-    "📜": "🪨", // Paper beats Rock
-    "✂️": "📜", // Scissors beats Paper
+    //key beats value
+    Rock: "Scissors",
+    Paper: "Rock",
+    Scissors: "Paper",
   },
   computerChoice: "",
   result: "",
@@ -42,7 +45,8 @@ function gameReducer(state, action) {
       } else if (winGraph[userChoice] === computerChoice) {
         result = "You win!";
         wins++;
-      } else { //(winGraph[computerChoice] === userChoice)
+      } else {
+        //(winGraph[computerChoice] === userChoice)
         result = "You lose!";
         losses++;
       }
@@ -63,14 +67,16 @@ function gameReducer(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(gameReducer, initialState);
+  const choices = choicesData.choices;
+
   const outcome = (userChoice) => {
     dispatch({ type: "PLAY", choice: userChoice });
   };
-  
+
   return (
     <>
       <h1>{state.title}</h1>
-      <SelectionForm options={state.choices} onSubmit={outcome} />
+      <SelectionForm choices={state.choices} onSubmit={outcome} />
       <>
         <h2>Result: {state.result}</h2>
         <p>Computers choice: {state.computerChoice}</p>
@@ -78,7 +84,6 @@ function App() {
           Wins: {state.wins} | Losses: {state.losses} | Ties: {state.ties}
         </p>
       </>
-      <ChoiceImages />
     </>
   );
 }
