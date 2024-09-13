@@ -1,14 +1,16 @@
 import { useState, useReducer, useEffect } from "react";
 import SelectionForm from "./SelectionForm";
-import choicesData from "./choices.json";
+import ChoiceImages from "./ChoiceImages";
 import "./App.css";
 
 /* 
-TODO: Pull from API images
-format data with: label, image
-generate winGraph making a single cycle of label comparisons
-*/
+incorporate choiceImages into selection form
+  generate winGraph making a single cycle of label comparisons
+start with default init state
+  gradually add choices after each round
+  */
 const initialState = {
+  title: "Rock Paper Scissors!",
   choices: ["🪨", "📜", "✂️"],
   winGraph: {
     "🪨": "✂️", // Rock beats Scissors
@@ -64,10 +66,10 @@ function App() {
   const outcome = (userChoice) => {
     dispatch({ type: "PLAY", choice: userChoice });
   };
-  let title = "Rock Paper Scissors!";
+  
   return (
     <>
-      <h1>{title}</h1>
+      <h1>{state.title}</h1>
       <SelectionForm options={state.choices} onSubmit={outcome} />
       <>
         <h2>Result: {state.result}</h2>
@@ -76,6 +78,7 @@ function App() {
           Wins: {state.wins} | Losses: {state.losses} | Ties: {state.ties}
         </p>
       </>
+      <ChoiceImages />
     </>
   );
 }
