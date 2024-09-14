@@ -49,7 +49,7 @@ function ChoiceImage({ choice }) {
         <img
           src={image}
           alt={choice}
-          style={{ width: "300px", height: "auto" }}
+          style={{ width: "300px", height: "300px", objectFit:"cover" }}
         />
       ) : (
         <p>No image found</p>

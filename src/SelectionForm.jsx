@@ -6,13 +6,11 @@ function SelectionForm({ choices, onSubmit }) {
   const [selectedChoice, setSelectedChoice] = useState("");
 
   const handleChoiceChange = (choice) => {
-    console.log(choice);
     setSelectedChoice(choice);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(`You selected: ${selectedChoice}`);
     if (selectedChoice) {
       onSubmit(selectedChoice);
     }
@@ -27,14 +25,7 @@ function SelectionForm({ choices, onSubmit }) {
       >
         Shoot!
       </button>
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))",
-            gap: "10px",
-          }}
-        >
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "row", flexWrap:"wrap", gap:"10px" }}>
           {choices.map((choice) => {
             return (
               <div
@@ -56,7 +47,6 @@ function SelectionForm({ choices, onSubmit }) {
             );
           })}
         </div>
-      </div>
     </form>
   );
 }
