@@ -5,8 +5,9 @@ import ChoiceImage from "./ChoiceImage";
 function SelectionForm({ choices, onSubmit }) {
   const [selectedChoice, setSelectedChoice] = useState("");
 
-  const handleChoiceChange = (event) => {
-    setSelectedChoice(event.target.value);
+  const handleChoiceChange = (choice) => {
+    console.log(choice);
+    setSelectedChoice(choice);
   };
 
   const handleSubmit = (event) => {
