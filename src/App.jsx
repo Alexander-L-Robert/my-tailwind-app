@@ -4,8 +4,6 @@ import choicesData from "./choices.json";
 import "./App.css";
 
 /* TODOs
-title updates to be a 3 contiguous items at a random index each play
-  larger title centered at top
 add cycle graph and rules
   cycle graph: directed cycle of nodes with arrows
     hovering prints name and image of the node
@@ -40,7 +38,7 @@ function gameReducer(state, action) {
   let choices = state.choices.slice();
 
   switch (action.type) {
-    case "PLAY": {
+    case "CALCULATE_WINNER": {
       const userIndex = choices.indexOf(action.choice);
       const computerIndex = Math.floor(Math.random() * choices.length);
       const distanceUserToComputer =
@@ -73,6 +71,7 @@ function gameReducer(state, action) {
       };
     }
     case "INCREMENT": {
+      //increase the number of choices in the game
       const round = wins + losses + ties;
       if (round >= choicesIncrement.length) return state;
 
@@ -80,15 +79,25 @@ function gameReducer(state, action) {
       const incrementValue = choicesIncrement[round];
 
       // Ensure that the number of new items to add does not exceed the length of allItems
-      const newItems = allChoices
-        .slice(currentIndex, currentIndex + incrementValue);
+      const newItems = allChoices.slice(
+        currentIndex,
+        currentIndex + incrementValue
+      );
       choices = choices.concat(newItems);
-      console.log(choices.length)
-      console.log(choices)
-      return {
-        ...state,
-        choices,
-      };
+      console.log(choices.length);
+      console.log(choices);
+      return { ...state, choices };
+    }
+    case "UPDATE_TITLE": {
+      const randomIndex = Math.floor(Math.random() * choices.length);
+      const titleLength = 3;
+      let title = "";
+      for (let i = 0; i < titleLength; i++) {
+        title += choices[(randomIndex + i) % choices.length];
+        title += i == titleLength - 1 ? "!" : " ";
+      }
+      document.title = title;
+      return { ...state, title };
     }
     default:
       return state;
@@ -98,15 +107,16 @@ function gameReducer(state, action) {
 function App() {
   const [state, dispatch] = useReducer(gameReducer, initialState);
 
-  const outcome = (userChoice) => {
-    dispatch({ type: "PLAY", choice: userChoice });
-    dispatch({ type: "INCREMENT", choice: userChoice });
+  const playRound = (userChoice) => {
+    dispatch({ type: "CALCULATE_WINNER", choice: userChoice });
+    dispatch({ type: "INCREMENT" });
+    dispatch({ type: "UPDATE_TITLE" });
   };
 
   return (
     <>
-      <h1>{state.title}</h1>
-      <SelectionForm choices={state.choices} onSubmit={outcome} />
+      <h1 style={{ fontSize: "50px" }}>{state.title}</h1>
+      <SelectionForm choices={state.choices} onSubmit={playRound} />
       <>
         <h2>Result: {state.result}</h2>
         <p>Computers choice: {state.computerChoice}</p>
