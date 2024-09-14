@@ -19,6 +19,30 @@ layout:
     children: cycle graph, rules, shoot button, & scoreboard a column on the right
       col2 is anchored to scrollbar
   */
+
+/* React fundamentals to implement
+showDown feature
+  creates a popup that shows the race animation between the two choices
+    (space between elements so it's not obvious which path is shorter)
+  Uses:
+    createPortal(): for the pop up
+    useContext(): for a skip setting for this feature
+
+loading dynamic content
+  we want to create skeleton choices with load spinners while the new images are being grabbed
+    could incorporate showDown feature to grey out and freeze background while this is happening
+    would still need the default skeleton/load spinners for when people turn off showDown feature
+  Uses:
+    <React.Suspense>
+      useDeferredValue()
+      useTransition()
+
+TODO:
+  find features for:
+  forwardRef(), useRef()
+  useCallback()
+  useMemo()
+*/
 const allChoices = choicesData.choices;
 const choicesIncrement = [2, 4, 6, 8, 8, 10, 20, 40];
 
